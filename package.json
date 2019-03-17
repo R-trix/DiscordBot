@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/NikosAghazarian/DiscordBot#readme",
   "dependencies": {
-    "discord.js": "^11.4.2"
+    "discord.js": "^11.4.2",
+    "node-fetch": "^2.3.0"
   }
 }
