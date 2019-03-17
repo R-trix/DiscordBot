@@ -1,4 +1,5 @@
 const Discord = require('discord.js')
+const fs = require('fs');
 const client = new Discord.Client()
 
 client.on('ready', () => {
@@ -6,9 +7,22 @@ client.on('ready', () => {
 })
 
 client.on('message', msg => {
-  if (msg.content === 'ping') {
-    msg.reply('Pong!')
-  }
+    switch (msg.content) {
+        case 'pls roast':
+            msg.reply('git gud nerd');
+            break;
+        case 'ping':
+            msg.reply('Pong!')
+            break;
+        case 'animeme':
+            let img = new Discord.RichEmbed();
+            let attactchment = Discord.Attachment();
+            img.file
+            msg.reply()
+            break;
+        default:
+            break;
+    }
 })
 
 client.login('NTU2NjAyNzUxNDY3OTEzMjE3.D28Jsw.fSzMHJZKyq0WSLkQTTSm2AAiUJY')
