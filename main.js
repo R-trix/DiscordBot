@@ -3,16 +3,16 @@ const fs = require('fs');
 const fetch = require("node-fetch");
 
 const client = new Discord.Client()
-const anHook = new Discord.Webhook(client) ;
-anHook.token = 'yhQghPjrcRFSsPEdkEHKTvDO7byyoWz06d735sUax8uVI-c041k1zUjK9u3zbG8tVg39';//'8me7WuW9u3dSxkmMEKNjCzfAo3a0OpDYhaYH_OEFtJBks_n4E7oq7rXAdHC4B_OgoBYc';
-anHook.id = '556708705538801664';//'556689729844936714';
+
+const prefix = '>'
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`)
 })
 
 client.on('message', msg => {
-    switch (msg.content) {
+    let content = msg.content.toLowerCase();
+    switch (content) {
         case 'pls roast':
             msg.reply('git gud nerd');
             break;
@@ -27,13 +27,12 @@ client.on('message', msg => {
             let img = new Discord.RichEmbed();
             img.attachFile(randomMeme.imgPath);
             msg.reply(img);
-            //console.log('Img data: ' + randomMeme);
-            break;
-        case '>a stuffing':
-            animeCallApi();
             break;
         default:
             break;
+    }
+    if (content.startsWith('>a ')) {
+        animeCallApi(msg);
     }
 })
 
@@ -45,7 +44,7 @@ class randImg {
     }
 }
 
-function animeCallApi() {
+function animeCallApi(msg) {
     // Here we define our query as a multi-line string
     let query = `
     query ($search: String) { # Define which variables will be used in the query (id)
@@ -63,8 +62,9 @@ function animeCallApi() {
     `;
 
     // Define our query variables and values that will be used in the query request
+
     let variables = {
-        search: 'Kimi No Na Wa'
+        search: msg.content.replace('>a ', '')
     };
 
     // Define the config we'll need for our Api request
@@ -90,9 +90,34 @@ function animeCallApi() {
         });
     }
     function handleData(data) {
-        console.log(JSON.stringify(data));
+        let pageData = data.data.Page;
+        function name(pageJson) {
+            if ((typeof pageJson.media[0].title.romaji) === 'string') {
+                return pageJson.media[0].title.romaji;
+            } else if ((typeof pageJson.media[0].title.english) === 'string') {
+                return pageJson.media[0].title.english;
+            } else if ((typeof pageJson.media[0].title.native) === 'string') {
+                return pageJson.media[0].title.native;
+            } else {
+                return 'No title found.';
+            }
+        }
+        function description(pageJson) {
+            if ((typeof pageJson.media[0].description) === 'string') {
+                return pageJson.media[0].description;
+            } else {
+                return 'No description found.';
+            }
+        }
+        let title = name(pageData);
+        console.log(title);
+        let breakRegex = /<br>/gi;
+        let summary = description(pageData).replace(breakRegex, '');
+        console.log(summary);
         try {
-            anHook.sendMessage(JSON.stringify(data));
+            let aniSearch = new Discord.RichEmbed();
+            aniSearch.setTitle(title).setDescription(summary).setColor([255,0,200]);
+            msg.reply(aniSearch);
         } catch (error) {
             handleError(error);
         }    
