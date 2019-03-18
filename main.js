@@ -3,8 +3,8 @@ const fs = require('fs');
 const fetch = require("node-fetch");
 
 const client = new Discord.Client()
-
-const prefix = '>'
+const IMGUR_API_CLIENT_ID = '31830e5e5536d70'
+const IMGUR_API_CLIENT_SECRET = '3c4009e82e42972f2ca03e8d162fafcba5e4ef44'
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`)
@@ -33,6 +33,8 @@ client.on('message', msg => {
     }
     if (content.startsWith('>a ')) {
         animeCallApi(msg);
+    } else if (content.startsWith('>im ')) {
+        imgurSearchApi(msg);
     }
 })
 
@@ -41,6 +43,31 @@ class randImg {
         this.imgId = Math.round(58*Math.random()); // 58 images, one is randomly selected by number
         this.imgFileName = this.imgId + '.png';
         this.imgPath = fs.readFileSync('./Animemes/'+ this.imgFileName + '/');
+    }
+}
+
+function imgurSearchApi(msg) {
+    let queryTerm = msg.content.replace('>im ', '').replace(' ', '%20');
+    let url = 'https://api.imgur.com/3/gallery/search/top/all?q=' + queryTerm;
+    let options = {
+        headers: {
+            Authorization: `Client-ID ${IMGUR_API_CLIENT_ID}`
+        }
+    }
+    fetch(url, options).then(handleResponse).then(handleData).catch(handleError);
+
+    function handleResponse(response) {
+        return response.json().then(function (json) {
+            return response.ok ? json : Promise.reject(json);
+        });
+    }
+    function handleData(data) {
+        let link = data.data[0].link
+        console.log(link);
+        msg.reply(link);
+    }
+    function handleError(error) {
+        console.error(error);
     }
 }
 
@@ -116,7 +143,7 @@ function animeCallApi(msg) {
         console.log(summary);
         try {
             let aniSearch = new Discord.RichEmbed();
-            aniSearch.setTitle(title).setDescription(summary).setColor([255,0,200]);
+            aniSearch.setTitle(title).setDescription(summary).setColor([Math.round(255*Math.random()),Math.round(255*Math.random()),Math.round(255*Math.random())]);
             msg.reply(aniSearch);
         } catch (error) {
             handleError(error);
