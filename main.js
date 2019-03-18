@@ -5,6 +5,7 @@ const fetch = require("node-fetch");
 const client = new Discord.Client();
 const IMGUR_API_CLIENT_ID = '31830e5e5536d70';
 const IMGUR_API_CLIENT_SECRET = '3c4009e82e42972f2ca03e8d162fafcba5e4ef44';
+const bot_token = 'NTU2NjAyNzUxNDY3OTEzMjE3.D28Jsw.fSzMHJZKyq0WSLkQTTSm2AAiUJY';
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`)
@@ -32,7 +33,7 @@ client.on('message', msg => {
             break;
     }
     if (content.startsWith('>a ')) {
-        animeCallApi(msg);
+        animeSearchApi(msg);
     } else if (content.startsWith('>im ')) {
         imgurSearchApi(msg);
     }
@@ -71,7 +72,7 @@ function imgurSearchApi(msg) {
     }
 }
 
-function animeCallApi(msg) {
+function animeSearchApi(msg) {
     // Here we define our query as a multi-line string
     let query = `
     query ($search: String) { # Define which variables will be used in the query (id)
@@ -154,4 +155,4 @@ function animeCallApi(msg) {
     }
 }
 
-client.login('NTU2NjAyNzUxNDY3OTEzMjE3.D28Jsw.fSzMHJZKyq0WSLkQTTSm2AAiUJY')
+client.login(bot_token);
