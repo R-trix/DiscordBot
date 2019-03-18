@@ -2,9 +2,9 @@ const Discord = require('discord.js')
 const fs = require('fs');
 const fetch = require("node-fetch");
 
-const client = new Discord.Client()
-const IMGUR_API_CLIENT_ID = '31830e5e5536d70'
-const IMGUR_API_CLIENT_SECRET = '3c4009e82e42972f2ca03e8d162fafcba5e4ef44'
+const client = new Discord.Client();
+const IMGUR_API_CLIENT_ID = '31830e5e5536d70';
+const IMGUR_API_CLIENT_SECRET = '3c4009e82e42972f2ca03e8d162fafcba5e4ef44';
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`)
@@ -47,7 +47,7 @@ class randImg {
 }
 
 function imgurSearchApi(msg) {
-    let queryTerm = msg.content.replace('>im ', '').replace(' ', '%20');
+    let queryTerm = msg.content.replace('>im ', '').replace(/\s/g, '%20');
     let url = 'https://api.imgur.com/3/gallery/search/top/all?q=' + queryTerm;
     let options = {
         headers: {
@@ -140,7 +140,7 @@ function animeCallApi(msg) {
         console.log(title);
         let breakRegex = /<br>/gi;
         let summary = description(pageData).replace(breakRegex, '');
-        console.log(summary);
+        //console.log(summary);
         try {
             let aniSearch = new Discord.RichEmbed();
             aniSearch.setTitle(title).setDescription(summary).setColor([Math.round(255*Math.random()),Math.round(255*Math.random()),Math.round(255*Math.random())]);
@@ -153,6 +153,5 @@ function animeCallApi(msg) {
         console.error(error);
     }
 }
-
 
 client.login('NTU2NjAyNzUxNDY3OTEzMjE3.D28Jsw.fSzMHJZKyq0WSLkQTTSm2AAiUJY')
