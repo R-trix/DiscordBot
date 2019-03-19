@@ -1,7 +1,6 @@
 const fs = require('fs');
 const Discord = require('discord.js');
-/* import { Discord } from "discord.js";
-import { fs } from "fs"; */
+
 module.exports = {
     randImg: class {
         constructor() {

@@ -1,13 +1,9 @@
 const Discord = require('discord.js');
 const secrets = require('./secrets.json');
-/* import { Discord } from "discord.js";
-import { secrets } from "./secrets.json"; */
+
 const randImg = require('./random_animeme');
 const imgur = require('./imgur_api');
 const anilist = require('./anilist_api');
-/* import { randImg } from "./random_animeme.js";
-import { imgurSearchApi } from "./imgur_api.js";
-import { animeSearchApi } from "./anilist_api.js"; */
 
 const client = new Discord.Client();
 const bot_token = secrets.bot_token;

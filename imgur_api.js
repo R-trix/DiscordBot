@@ -24,7 +24,7 @@ module.exports = {
             }
             function handleData(data) {
                 let link = data.data[0].link
-                console.log(link);
+                //console.log(link);
                 msg.reply(link);
             }
             function handleError(error) {
