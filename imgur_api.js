@@ -6,6 +6,9 @@ const IMGUR_API_CLIENT_SECRET = secrets.imgur_secret;
 module.exports = {
     imgurApi: class {
         constructor(content) {
+            if (content === undefined) {
+                content = 'BBQ steak';
+            }
             this.msgcontent = content;
             this.queryTerm = this.msgcontent.replace(/\s/g, '%20');
             this.url = 'https://api.imgur.com/3/gallery/search/top/all?q=' + this.queryTerm;
