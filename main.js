@@ -4,13 +4,14 @@ const secrets = require('./secrets.json');
 const randImg = require('./random_animeme');
 const imgur = require('./imgur_api');
 const anilist = require('./anilist_api');
+const weatherService = require('./weather_api');
 
 const client = new Discord.Client();
 const bot_token = secrets.bot_token;
 const prefix = '>';
 const commands = 
 [
-    'a','animeme','im','marco','ping','roast'
+    'a','animeme','im','marco','ping','roast','weather'
 ];
 
 client.on('ready', () => {
@@ -43,6 +44,10 @@ client.on('message', msg => {
                 let info = new anilist.anilistSearch(content);
                 info.animeSearch(msg)
                 break;
+            case 6:
+                let weather = new weatherService.weatherReport(content);
+                weather.forecast5Weather(msg)
+                break;
             default:
                 msg.channel.send('Unknown Command.');
                 break;
@@ -53,6 +58,7 @@ client.on('message', msg => {
 function messageParser(msgContent) {
     msgContent = msgContent.replace(prefix, '');//remove the command indicator
     let [cmd, followings] = msgContent.split(' ', 2);//separates the command and the followings
+    followings = msgContent.replace(cmd + ' ', '');
     let switchCmdIdx = commands.findIndex( element => { return element === cmd });
     return [switchCmdIdx, followings];
 }
