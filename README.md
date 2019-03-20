@@ -26,3 +26,11 @@ Command List:
 -`weather`
     Returns the 5 day forecast in 3 hour blocks
     *Source: openweathermaps.org API*
+    
+secrets.json Format:
+```{
+    "bot_token": token,
+    "imgur_id": token,
+    "imgur_secret": token,
+    "weather_key": token
+}```
