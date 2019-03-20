@@ -22,3 +22,7 @@ Command List:
 -`animeme`
     Returns a random anime reaction face
     *Source: ./Animemes*
+
+-`weather`
+    Returns the 5 day forecast in 3 hour blocks
+    *Source: openweathermaps.org API*
