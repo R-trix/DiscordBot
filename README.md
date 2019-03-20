@@ -33,4 +33,4 @@ secrets.json Format:
     "imgur_id": token,
     "imgur_secret": token,
     "weather_key": token
-}```
+}
